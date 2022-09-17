@@ -15,6 +15,16 @@
   },
   "author": "",
   "license": "MIT",
+  "lint-staged": {
+    "src/**/*.{ts, tsx}": [
+      "npm run format:write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.19.1",
     "@storybook/addon-actions": "^6.5.12",
