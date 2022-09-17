@@ -17,7 +17,7 @@
   "license": "MIT",
   "lint-staged": {
     "src/**/*.{ts, tsx}": [
-      "npm run format:write"
+      "npm run format:write && git add -A"
     ]
   },
   "husky": {
