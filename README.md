@@ -1,6 +1,15 @@
 # react hooks helpers
 A collection of utility hooks to problems I've solved over the years.
 
+- [useAsyncScript](https://github.com/andrewangelle/react-hooks-helpers#useasyncscript)
+- [useBreakpoint](https://github.com/andrewangelle/react-hooks-helpers#usebreakpoint)
+- [useComposedRefs](https://github.com/andrewangelle/react-hooks-helpers#useComposedRefs)
+- [useControlledReducer](https://github.com/andrewangelle/react-hooks-helpers#usecontrolledreducer)
+- [useOutsideClick](https://github.com/andrewangelle/react-hooks-helpers#useoutsideclick)
+- [usePrevious](https://github.com/andrewangelle/react-hooks-helpers#useprevious)
+- [useRect](https://github.com/andrewangelle/react-hooks-helpers#userect)
+- [useSubscription](https://github.com/andrewangelle/react-hooks-helpers#usesubscription)
+- [useWindowWidth](https://github.com/andrewangelle/react-hooks-helpers#usewindowwidth)
 <hr />
 
 ### useAsyncScript
