@@ -6,7 +6,7 @@ type RectProps = {
   callbacks: Function[];
 };
 
-const props: Array<keyof DOMRect> = [
+export const domRectProps: Array<keyof DOMRect> = [
   'bottom',
   'height',
   'left',
@@ -21,7 +21,7 @@ function rectChanged(
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   b: DOMRect = {} as DOMRect
 ): boolean {
-  return props.some(prop => a[prop] !== b[prop]);
+  return domRectProps.some(prop => a[prop] !== b[prop]);
 }
 
 const observedNodes = new Map<Element, RectProps>();

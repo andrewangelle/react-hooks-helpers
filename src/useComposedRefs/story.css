@@ -1,0 +1,11 @@
+
+.fancy-button {
+  border: 1px solid darkgrey;
+  border-radius: 8px;
+  padding: 20px 30px;
+}
+
+.fancy-button:focus {
+  outline: none;
+  border: 3px solid red;
+}
