@@ -58,9 +58,9 @@ export function useEnhancedReducer<
   const propsRef = useLatestRef<Props>(props);
 
   const dispatchWithProps = useCallback(
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-    // @ts-ignore
     ({ props, ...action }: ActionType) =>
+      // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+      // @ts-ignore
       dispatch({ props: propsRef.current, ...action }),
     [propsRef]
   );

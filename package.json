@@ -2,19 +2,21 @@
   "name": "utility-hooks",
   "version": "1.0.0",
   "files":["dist"],
-  "main":"./dist/react-hooks-helpers.umd.js",
-  "module":"./dist/react-hooks-helpers.es.js",
+  "main":"./dist/index.umd.js",
+  "module":"./dist/index.es.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/react-hooks-helpers.es.js",
-      "require": "./dist/react-hooks-helpers.umd.js"
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
     }
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "start-storybook -p 6006",
+    "build:types": "tsc --emitDeclarationOnly && mv dist/src dist/types",
     "build:clean": "rm -rf dist",
-    "build": "npm run build:clean && vite build",
+    "build": "npm run build:clean && vite build && npm run build:types",
     "build:storybook": "build-storybook",
     "format:check": "prettier --check \"./src/**/*.{ts,tsx}\"",
     "format:write": "prettier --write \"./src/**/*.{ts,tsx}\"",
@@ -67,5 +69,8 @@
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8"
+  },
+  "peerDependencies": {
+    "react": "18.x.x"
   }
 }
