@@ -39,3 +39,7 @@ rules:
   'react/react-in-jsx-scope': off
 
   "@typescript-eslint/consistent-type-definitions": 0
+
+  '@typescript-eslint/strict-boolean-expressions': 0
+
+  '@typescript-eslint/consistent-type-assertions': 0
