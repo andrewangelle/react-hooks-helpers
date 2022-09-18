@@ -4,7 +4,7 @@
   "files":["dist"],
   "main":"./dist/index.umd.js",
   "module":"./dist/index.es.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
@@ -14,7 +14,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "start-storybook -p 6006",
-    "build:types": "tsc --emitDeclarationOnly && mv dist/src dist/types",
+    "build:types": "tsc --emitDeclarationOnly",
     "build:clean": "rm -rf dist",
     "build": "npm run build:clean && vite build && npm run build:types",
     "build:storybook": "build-storybook",
