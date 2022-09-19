@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { useSubscription } from '../useSubscription';
-import { useWindowWidth } from '../useWindowWidth';
+import { useSubscription } from '../useSubscription/useSubscription';
+import { useWindowWidth } from '../useWindowWidth/useWindowWidth';
 
 export type Breakpoint = 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge';
 

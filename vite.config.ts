@@ -1,4 +1,5 @@
 import path from 'path';
+import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -14,7 +15,14 @@ export default defineConfig({
         globals: {
           react: 'react'
         }
-      }
+      },
+      plugins: [typescript({
+        exclude: [
+          "./src/**/*.stories.tsx",
+          "node_modules/**/*",
+          "vite.config.ts"
+        ]
+      })]
     }
   },
 })

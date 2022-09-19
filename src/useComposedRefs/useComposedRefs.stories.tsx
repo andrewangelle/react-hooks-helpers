@@ -1,7 +1,7 @@
 import { useRef, forwardRef, PropsWithChildren } from 'react';
 
 import { useComposedRefs } from './useComposedRef';
-import { useOutsideClick } from '../useOutsideClick';
+import { useOutsideClick } from '../useOutsideClick/useOutsideClick';
 
 import './story.css';
 

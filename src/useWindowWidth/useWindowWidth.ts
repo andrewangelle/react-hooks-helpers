@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import debounce from 'lodash.debounce';
 
-import { useSubscription } from '../useSubscription';
+import { useSubscription } from '../useSubscription/useSubscription';
 
 export function useWindowWidth(): number {
   const source = window;

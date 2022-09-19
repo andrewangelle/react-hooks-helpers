@@ -1,9 +1,11 @@
 {
   "name": "react-hooks-helpers",
   "version": "1.0.0",
-  "files":["dist"],
-  "main":"./dist/index.umd.js",
-  "module":"./dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -14,9 +16,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "start-storybook -p 6006",
-    "build:types": "tsc --emitDeclarationOnly",
+    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "build:clean": "rm -rf dist",
-    "build": "npm run build:clean && vite build && npm run build:types",
+    "build": "npm run build:clean && vite build",
     "build:storybook": "build-storybook",
     "format:check": "prettier --check \"./src/**/*.{ts,tsx}\"",
     "format:write": "prettier --write \"./src/**/*.{ts,tsx}\"",
@@ -38,6 +40,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
+    "@rollup/plugin-typescript": "^8.5.0",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-interactions": "^6.5.12",
