@@ -4,16 +4,17 @@ function capitalize(str: string = ''): string {
   return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
 }
 
-type DefaultProps<State = Record<string, unknown>> = {
+export type DefaultProps<State = Record<string, unknown>> = {
   [Key: string]: unknown;
   onStateChange?: (nextState: State) => void;
-  stateReducer: ReducerType;
+  stateReducer?: ReducerType<State>;
 };
 
-type DefaultAction<
+export type DefaultAction<
   State = Record<string, any>,
-  Props = Record<string, any> & DefaultProps<State>
+  Props = DefaultProps<State>
 > = {
+  [key: string]: any;
   type: string;
   props: Props;
 };
@@ -22,15 +23,14 @@ export type ReducerType<
   State = Record<string, any>,
   Props = DefaultProps,
   ActionType = DefaultAction<State, Props>
-> = (s: State, a: ActionType) => State;
+> = (state: State, action: ActionType) => State;
 
 export function useEnhancedReducer<
   State extends Record<string, any>,
-  ActionType extends DefaultAction<State, DefaultProps>,
-  Props = DefaultProps<State>
+  Props extends DefaultProps<State>,
+  ActionType extends DefaultAction<State, DefaultProps<State>>
 >(
-  reducer: ReducerType<State, ActionType>,
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  reducer: ReducerType<State, Props, ActionType>,
   initialState: State = {} as State,
   props: Props
 ): [State, (action: ActionType) => void] {
@@ -41,19 +41,18 @@ export function useEnhancedReducer<
     (state: State, action: ActionType) => {
       actionRef.current = action;
       state = getState(state, action.props);
-
-      // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-      // @ts-ignore
       const changes = reducer(state, action);
-      const newState = action.props.stateReducer(state, { ...action, changes });
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const newState = action.props.stateReducer!(state, {
+        ...action,
+        changes,
+      });
 
       return newState;
     },
     [reducer]
   );
 
-  // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-  // @ts-ignore
   const [state, dispatch] = useReducer(enhancedReducer, initialState);
   const propsRef = useLatestRef<Props>(props);
 
@@ -116,7 +115,7 @@ function callOnChangeProps<
   const changes = {} as unknown as State;
 
   Object.keys(state).forEach(key => {
-    invokeOnChangeHandler(key, action, state, newState);
+    invokeOnChangeHandler<State, ActionType>(key, action, state, newState);
 
     if (newState[key] !== state[key]) {
       // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
@@ -142,6 +141,7 @@ function invokeOnChangeHandler<
     newState[key] !== undefined &&
     newState[key] !== state[key]
   ) {
+    // @ts-expect-error
     props[handler]({ type, ...newState });
   }
 }
