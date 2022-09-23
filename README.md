@@ -82,7 +82,9 @@ const ForwardedRefComponent = forwardRef<HTMLElement, PropsWithChildren<{}>>(
 
 ### useControlledReducer
 
-TODO
+- a low level hook that utilizes inversion of control and allows you to define a default reducer, and also allows for consumer to override state changes, and state values throug props. Useful if you want a state that will could controlled or uncontrolled depending on the consumer props being passed in.
+
+[See an example implementation](https://github.com/andrewangelle/react-hooks-helpers/tree/main/src/useControlledReducer/story/useSelect.ts) of a headless select hook that utilizes this hook.
 
 <hr />
 
@@ -169,8 +171,30 @@ function DOMRectExample(){
 
 ### useSubscription
 
-TODO
+- a hook for subscribing to external data sources.
 
+```typescript
+import { useMemo } from 'react';
+import debounce from 'lodash.debounce';
+
+import { useSubscription } from '../useSubscription/useSubscription';
+
+export function useWindowWidth(): number {
+  const source = window;
+  const subscription = useMemo(
+    () => ({
+      getCurrentValue: () => source.innerWidth,
+      subscribe: (callback: any) => {
+        source.addEventListener('resize', debounce(callback, 300));
+        return () => source.removeEventListener('resize', callback);
+      },
+    }),
+    [source.innerWidth]
+  );
+  return useSubscription(subscription);
+}
+
+```
 
 <hr />
 
