@@ -1,14 +1,16 @@
 import { DefaultAction, DefaultProps, ReducerType } from '../utils';
 
+export type Option = { value: string; label: string };
+
 export type SelectState = {
   isOpen: boolean;
-  selectedOption?: { value: string; label: string };
+  selectedOption?: Option;
 };
 
 export type SelectProps = DefaultProps<SelectState> & {
   initialOpen?: boolean;
-  selectedOption?: { value: string; label: string };
-  options: Array<{ value: string; label: string }>;
+  selectedOption?: Option;
+  options: Option[];
 };
 
 export const selectActionTypes = {
@@ -21,39 +23,18 @@ export const selectReducer: ReducerType<
   SelectProps,
   DefaultAction<SelectState, SelectProps>
 > = (state, action) => {
-  let changes: Partial<SelectState> = {};
-
   switch (action.type) {
     case selectActionTypes.toggle:
-      changes = {
+      return {
+        ...state,
         isOpen: !state.isOpen,
       };
-
-      break;
-
     case selectActionTypes.setSelectedOption:
-      changes = {
+      return {
+        ...state,
         selectedOption: action.selectedOption,
       };
-
-      break;
-  }
-
-  return {
-    ...state,
-    ...changes,
-  };
-};
-
-export const commonReducer: ReducerType<
-  SelectState,
-  SelectProps,
-  DefaultAction<SelectState, SelectProps>
-> = (state, action) => {
-  switch (action.type) {
-    case selectActionTypes.toggle:
-    case selectActionTypes.setSelectedOption:
     default:
-      return selectReducer(state, action);
+      return state;
   }
 };

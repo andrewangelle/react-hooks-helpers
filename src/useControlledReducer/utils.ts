@@ -17,6 +17,7 @@ export type DefaultAction<
   [key: string]: any;
   type: string;
   props: Props;
+  changes?: Partial<State>;
 };
 
 export type ReducerType<

@@ -1,10 +1,8 @@
 import { useControlledReducer } from '../useControlledReducer';
-import { DefaultAction } from '../utils';
 import {
   SelectState,
   SelectProps,
   selectActionTypes,
-  commonReducer,
   selectReducer,
 } from './reducers';
 
@@ -15,7 +13,7 @@ type UseSelect = SelectState & {
 
 export function useSelect(
   {
-    stateReducer = commonReducer,
+    stateReducer = selectReducer,
     ...props
   }: SelectProps | undefined = {} as SelectProps
 ): UseSelect {
@@ -29,11 +27,11 @@ export function useSelect(
     selectedOption: props.selectedOption ?? undefined,
   };
 
-  const [state, dispatch] = useControlledReducer<
-    SelectState,
-    SelectProps,
-    DefaultAction<SelectState, SelectProps>
-  >(selectReducer, initialState, controlledReducerProps);
+  const [state, dispatch] = useControlledReducer(
+    selectReducer,
+    initialState,
+    controlledReducerProps
+  );
 
   function toggle(): void {
     dispatch({
