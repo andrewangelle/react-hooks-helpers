@@ -1,5 +1,6 @@
 import { SelectState, selectActionTypes } from './reducers';
 import { useSelect } from './useSelect';
+import './story.css';
 
 const Meta = {
   title: 'useControlledReducer',
@@ -18,25 +19,28 @@ export function Basic() {
   });
 
   return (
-    <div>
-      <div style={{ cursor: 'pointer' }} onClick={toggle}>
+    <div className='dropdown-container'>
+      <div className='dropdown-button' onClick={toggle}>
         {selectedOption?.label || 'placeholder'}
+        <i className={`arrow ${isOpen ? 'up' : 'down'}`}/>
       </div>
 
       {isOpen && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            border: '1px solid black',
-            cursor: 'pointer',
-          }}
-        >
-          {selectOptions.map(option => (
-            <div key={option.value} onClick={() => setSelectedOption(option)}>
-              {option.label}
-            </div>
-          ))}
+        <div className='dropdown-menu'>
+          {selectOptions.map(option => {
+            const selectedClass = selectedOption?.value === option.value 
+              ? 'selected' 
+              : '';
+            return (
+              <div 
+                key={option.value} 
+                className={`dropdown-menu-item ${selectedClass}`}
+                onClick={() => setSelectedOption(option)}
+              >
+                {option.label}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
@@ -44,14 +48,13 @@ export function Basic() {
 }
 
 export function WithPropOverrides() {
-  const overriddenDisplayedValue = {
-    label: 'overriden displayed value',
-    value: '0',
-  };
-
-  const { isOpen, selectedOption, toggle, setSelectedOption } = useSelect({
+  const { 
+    isOpen, 
+    selectedOption, 
+    toggle, 
+    setSelectedOption 
+  } = useSelect({
     options: selectOptions,
-    selectedOption: overriddenDisplayedValue,
     stateReducer(state, action) {
       let changes: Partial<SelectState> = { ...(action.changes || {}) };
 
@@ -72,25 +75,26 @@ export function WithPropOverrides() {
   });
 
   return (
-    <div>
-      <div style={{ cursor: 'pointer' }} onClick={toggle}>
+    <div className='dropdown-container'>
+      <div className='dropdown-button' onClick={toggle}>
         {selectedOption?.label || 'placeholder'}
+        <i className={`arrow ${isOpen ? 'up' : 'down'}`}/>
       </div>
 
       {isOpen && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            border: '1px solid black',
-            cursor: 'pointer',
-          }}
-        >
-          {selectOptions.map(option => (
-            <div key={option.value} onClick={() => setSelectedOption(option)}>
-              {option.label}
-            </div>
-          ))}
+        <div className='dropdown-menu'>
+          {selectOptions.map(option => {
+            const selectedClass = selectedOption?.value === option.value ? 'selected' : '';
+            return (
+              <div 
+                key={option.value} 
+                className={`dropdown-menu-item ${selectedClass}`}
+                onClick={() => setSelectedOption(option)}
+              >
+                {option.label}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
