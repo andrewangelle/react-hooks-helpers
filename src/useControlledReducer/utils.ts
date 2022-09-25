@@ -101,10 +101,10 @@ export function getState<
 }
 
 function useLatestRef<DataType extends unknown>(
-  val: DataType
+  value: DataType
 ): RefObject<DataType> {
-  const ref = useRef<DataType>(val);
-  ref.current = val;
+  const ref = useRef<DataType>(value);
+  ref.current = value;
   return ref;
 }
 

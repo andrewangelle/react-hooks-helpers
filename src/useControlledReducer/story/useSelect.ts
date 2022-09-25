@@ -4,11 +4,12 @@ import {
   SelectProps,
   selectActionTypes,
   selectReducer,
+  Option,
 } from './reducers';
 
 type UseSelect = SelectState & {
   toggle: () => void;
-  setSelectedOption: (option: { value: string; label: string }) => void;
+  setSelectedOption: (option: Option) => void;
 };
 
 export function useSelect(

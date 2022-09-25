@@ -2,6 +2,14 @@ import path from 'path';
 import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'vite';
 
+const typescriptPlugin = typescript({
+  exclude: [
+    "./src/**/*.stories.tsx",
+    "node_modules/**/*",
+    "vite.config.ts"
+  ]
+});
+
 export default defineConfig({
   build: {
     lib: {
@@ -16,13 +24,7 @@ export default defineConfig({
           react: 'react'
         }
       },
-      plugins: [typescript({
-        exclude: [
-          "./src/**/*.stories.tsx",
-          "node_modules/**/*",
-          "vite.config.ts"
-        ]
-      })]
+      plugins: [typescriptPlugin]
     }
   },
 })

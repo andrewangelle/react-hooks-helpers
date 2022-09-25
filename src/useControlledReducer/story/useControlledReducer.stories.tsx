@@ -84,7 +84,9 @@ export function WithPropOverrides() {
       {isOpen && (
         <div className='dropdown-menu'>
           {selectOptions.map(option => {
-            const selectedClass = selectedOption?.value === option.value ? 'selected' : '';
+            const selectedClass = selectedOption?.value === option.value 
+              ? 'selected' 
+              : '';
             return (
               <div 
                 key={option.value} 
