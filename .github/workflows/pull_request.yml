@@ -1,0 +1,24 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: [ ubuntu-22.04 ]
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+
+    - name: Install dependencies 
+      run: npm install
+
+    - name: Run unit tests
+      run: npm run test
+
+    - name: Run linter
+      run: npm run lint:check
+
+    - name: Build production bundle
+      run: npm run build
