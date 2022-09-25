@@ -10,7 +10,7 @@ const Meta = {
   component: () => null,
 };
 
-const FancyButton = forwardRef<HTMLDivElement, PropsWithChildren<{}>>(
+const Button = forwardRef<HTMLDivElement, PropsWithChildren<{}>>(
   (props, forwardedRef) => {
     const internalRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,7 +35,7 @@ const FancyButton = forwardRef<HTMLDivElement, PropsWithChildren<{}>>(
   }
 );
 
-FancyButton.displayName = 'FancyButton';
+Button.displayName = 'Button';
 
 export function Basic(): JSX.Element {
   function onOutsideClick(): void {
@@ -45,9 +45,9 @@ export function Basic(): JSX.Element {
   const ref = useOutsideClick(onOutsideClick);
 
   return (
-    <FancyButton ref={ref}>
+    <Button ref={ref}>
       Click me to focus, click outside for alert
-    </FancyButton>
+    </Button>
   );
 }
 

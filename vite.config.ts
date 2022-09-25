@@ -6,6 +6,7 @@ const typescriptPlugin = typescript({
   exclude: [
     "./src/**/*.stories.tsx",
     "./src/**/*.test.ts",
+    "./src/**/*.test.tsx",
     "node_modules/**/*",
     "vite.config.ts",
     "vitest.config.ts"

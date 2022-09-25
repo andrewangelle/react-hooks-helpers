@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { expect, describe, it } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 
@@ -30,7 +31,6 @@ describe('useControlledReducer', () => {
 
     act(() => {
       result.current.toggle();
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       result.current.setSelectedOption(options[1]!);
     });
 
@@ -76,7 +76,6 @@ describe('useControlledReducer', () => {
 
     act(() => {
       result.current.toggle();
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       result.current.setSelectedOption(options[1]!);
     });
 
