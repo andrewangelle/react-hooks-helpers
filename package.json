@@ -17,7 +17,6 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "dev": "start-storybook -p 6006",
-    "build:types": "tsc --emitDeclarationOnly --project tsconfig.build.json",
     "build:clean": "rm -rf dist",
     "build": "npm run build:clean && vite build",
     "build:storybook": "build-storybook",

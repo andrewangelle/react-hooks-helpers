@@ -5,8 +5,10 @@ import { defineConfig } from 'vite';
 const typescriptPlugin = typescript({
   exclude: [
     "./src/**/*.stories.tsx",
+    "./src/**/*.test.ts",
     "node_modules/**/*",
-    "vite.config.ts"
+    "vite.config.ts",
+    "vitest.config.ts"
   ]
 });
 
