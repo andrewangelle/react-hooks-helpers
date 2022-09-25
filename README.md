@@ -140,7 +140,7 @@ const ForwardedRefComponent = forwardRef<HTMLElement, PropsWithChildren<{}>>(
 
 ### useControlledReducer
 
-- a low level hook that utilizes inversion of control and allows you to define a default reducer, and also allows for consumer to override state changes, and state values throug props. Useful if you want a state that could be controlled or uncontrolled depending on the consumer props being passed in.
+- a low level hook that utilizes inversion of control and allows you to define a default reducer, and also allows for consumer to override state changes, and state values through props. Useful if you want a state that could be controlled or uncontrolled depending on the consumer props being passed in.
 
 [See an example implementation](https://github.com/andrewangelle/react-hooks-helpers/tree/main/src/useControlledReducer/story/useSelect.ts) of a headless select hook that utilizes this hook.
 
