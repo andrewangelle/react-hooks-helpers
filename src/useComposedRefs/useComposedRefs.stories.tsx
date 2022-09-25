@@ -44,11 +44,7 @@ export function Basic(): JSX.Element {
 
   const ref = useOutsideClick(onOutsideClick);
 
-  return (
-    <Button ref={ref}>
-      Click me to focus, click outside for alert
-    </Button>
-  );
+  return <Button ref={ref}>Click me to focus, click outside for alert</Button>;
 }
 
 export default Meta;

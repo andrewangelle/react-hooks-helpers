@@ -22,8 +22,12 @@ export function Test(): JSX.Element {
 
   return (
     <div>
-      <button data-testid='increase' onClick={increaseCount}>Increase</button>
-      <button data-testid='decrease' onClick={decreaseCount}>Decrease</button>
+      <button data-testid="increase" onClick={increaseCount}>
+        Increase
+      </button>
+      <button data-testid="decrease" onClick={decreaseCount}>
+        Decrease
+      </button>
 
       <div style={{ margin: '10px' }}>
         <div>{`Counter: ${count}`}</div>
@@ -37,34 +41,34 @@ describe('usePrevious', () => {
   it('renders current and previous state', () => {
     render(<Test />);
 
-    screen.getByText('Counter: 0')
-    screen.getByText('Previous count: undefined')
+    screen.getByText('Counter: 0');
+    screen.getByText('Previous count: undefined');
 
     const buttons = screen.getAllByRole('button');
     const [increase, decrease] = buttons;
 
-    fireEvent.click(increase!)
-    screen.getByText('Counter: 1')
-    screen.getByText('Previous count: 0')
+    fireEvent.click(increase!);
+    screen.getByText('Counter: 1');
+    screen.getByText('Previous count: 0');
 
-    fireEvent.click(increase!)
-    screen.getByText('Counter: 2')
-    screen.getByText('Previous count: 1')
-  
-    fireEvent.click(increase!)
-    screen.getByText('Counter: 3')
-    screen.getByText('Previous count: 2')
+    fireEvent.click(increase!);
+    screen.getByText('Counter: 2');
+    screen.getByText('Previous count: 1');
 
-    fireEvent.click(decrease!)
-    screen.getByText('Counter: 2')
-    screen.getByText('Previous count: 3')
+    fireEvent.click(increase!);
+    screen.getByText('Counter: 3');
+    screen.getByText('Previous count: 2');
 
-    fireEvent.click(decrease!)
-    screen.getByText('Counter: 1')
-    screen.getByText('Previous count: 2')
+    fireEvent.click(decrease!);
+    screen.getByText('Counter: 2');
+    screen.getByText('Previous count: 3');
 
-    fireEvent.click(decrease!)
-    screen.getByText('Counter: 0')
-    screen.getByText('Previous count: 1')   
-  })
-})
+    fireEvent.click(decrease!);
+    screen.getByText('Counter: 1');
+    screen.getByText('Previous count: 2');
+
+    fireEvent.click(decrease!);
+    screen.getByText('Counter: 0');
+    screen.getByText('Previous count: 1');
+  });
+});
