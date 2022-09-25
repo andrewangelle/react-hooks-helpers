@@ -19,27 +19,26 @@ export function Basic() {
   });
 
   return (
-    <div className='dropdown-container'>
-      <div className='dropdown-button' onClick={toggle}>
+    <div className="dropdown-container">
+      <div className="dropdown-button" onClick={toggle}>
         {selectedOption?.label || 'placeholder'}
-        <i className={`arrow ${isOpen ? 'up' : 'down'}`}/>
+        <i className={`arrow ${isOpen ? 'up' : 'down'}`} />
       </div>
 
       {isOpen && (
-        <div className='dropdown-menu'>
+        <div className="dropdown-menu">
           {selectOptions.map(option => {
-            const selectedClass = selectedOption?.value === option.value 
-              ? 'selected' 
-              : '';
+            const selectedClass =
+              selectedOption?.value === option.value ? 'selected' : '';
             return (
-              <div 
-                key={option.value} 
+              <div
+                key={option.value}
                 className={`dropdown-menu-item ${selectedClass}`}
                 onClick={() => setSelectedOption(option)}
               >
                 {option.label}
               </div>
-            )
+            );
           })}
         </div>
       )}
@@ -48,12 +47,7 @@ export function Basic() {
 }
 
 export function WithPropOverrides() {
-  const { 
-    isOpen, 
-    selectedOption, 
-    toggle, 
-    setSelectedOption 
-  } = useSelect({
+  const { isOpen, selectedOption, toggle, setSelectedOption } = useSelect({
     options: selectOptions,
     stateReducer(state, action) {
       let changes: Partial<SelectState> = { ...(action.changes || {}) };
@@ -75,27 +69,26 @@ export function WithPropOverrides() {
   });
 
   return (
-    <div className='dropdown-container'>
-      <div className='dropdown-button' onClick={toggle}>
+    <div className="dropdown-container">
+      <div className="dropdown-button" onClick={toggle}>
         {selectedOption?.label || 'placeholder'}
-        <i className={`arrow ${isOpen ? 'up' : 'down'}`}/>
+        <i className={`arrow ${isOpen ? 'up' : 'down'}`} />
       </div>
 
       {isOpen && (
-        <div className='dropdown-menu'>
+        <div className="dropdown-menu">
           {selectOptions.map(option => {
-            const selectedClass = selectedOption?.value === option.value 
-              ? 'selected' 
-              : '';
+            const selectedClass =
+              selectedOption?.value === option.value ? 'selected' : '';
             return (
-              <div 
-                key={option.value} 
+              <div
+                key={option.value}
                 className={`dropdown-menu-item ${selectedClass}`}
                 onClick={() => setSelectedOption(option)}
               >
                 {option.label}
               </div>
-            )
+            );
           })}
         </div>
       )}
