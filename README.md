@@ -1,6 +1,64 @@
 # react hooks helpers
 A collection of utility hooks to problems I've solved over the years.
 
+# Getting Started
+
+Install dependencies
+```sh
+$ npm install
+```
+
+# Development
+
+Run storybook:
+
+```sh
+$ npm run dev
+```
+- storybook will be running at `http://localhost:6006`
+
+Build storybook static files:
+```sh
+$ npm run storybook:build
+```
+
+Run unit tests:
+
+```sh
+$ npm run test
+```
+
+Run unit tests in watch mode:
+
+```sh
+$ npm run test:watch
+```
+
+Run linter check:
+```sh
+$ npm run lint:check
+```
+
+Run linter auto fix:
+```sh
+$ npm run lint:fix
+```
+
+Run prettier check:
+```sh
+$ npm run format:check
+```
+
+Run prettier write:
+```sh
+$ npm run format:write
+```
+
+Run production build:
+```sh
+$ npm run build
+```
+# Library
 - [useAsyncScript](https://github.com/andrewangelle/react-hooks-helpers#useasyncscript)
 - [useBreakpoint](https://github.com/andrewangelle/react-hooks-helpers#usebreakpoint)
 - [useComposedRefs](https://github.com/andrewangelle/react-hooks-helpers#useComposedRefs)
@@ -82,7 +140,7 @@ const ForwardedRefComponent = forwardRef<HTMLElement, PropsWithChildren<{}>>(
 
 ### useControlledReducer
 
-- a low level hook that utilizes inversion of control and allows you to define a default reducer, and also allows for consumer to override state changes, and state values throug props. Useful if you want a state that will could controlled or uncontrolled depending on the consumer props being passed in.
+- a low level hook that utilizes inversion of control and allows you to define a default reducer, and also allows for consumer to override state changes, and state values throug props. Useful if you want a state that could be controlled or uncontrolled depending on the consumer props being passed in.
 
 [See an example implementation](https://github.com/andrewangelle/react-hooks-helpers/tree/main/src/useControlledReducer/story/useSelect.ts) of a headless select hook that utilizes this hook.
 
