@@ -115,6 +115,25 @@ export function BreakpointExample(){
 }
 ```
 
+
+- also supports a config to set custom breakpoints
+```typescript
+export function CustomConfigExample(){
+  const config = {
+    xsmall: { end: 300 },
+    small: { start: 300, end: 500 },
+    large: { start: 500 },
+  };
+  
+  const breakpoint = useBreakpoint(config);
+
+  return (
+    <div>
+      <div>{`Current breakpoint is: ${breakpoint}`}</div>
+    </div>
+  );
+}
+```
 <hr />
 
 ### useComposedRefs
