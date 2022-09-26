@@ -32,4 +32,33 @@ describe('useBreakpoint', () => {
     rerender();
     expect(result.current).toBe('small');
   });
+
+  it('supports custom config', () => {
+    const config = {
+      xsmall: { end: 300 },
+      small: { start: 300, end: 500 },
+      large: { start: 500 },
+    };
+    const { result, rerender } = renderHook(() => useBreakpoint(config));
+
+    fireResize(1400);
+    rerender();
+    expect(result.current).toBe('large');
+
+    fireResize(1200);
+    rerender();
+    expect(result.current).toBe('large');
+
+    fireResize(1050);
+    rerender();
+    expect(result.current).toBe('large');
+
+    fireResize(450);
+    rerender();
+    expect(result.current).toBe('small');
+
+    fireResize(200);
+    rerender();
+    expect(result.current).toBe('xsmall');
+  });
 });

@@ -115,6 +115,25 @@ export function BreakpointExample(){
 }
 ```
 
+
+- also supports a config to set custom breakpoints
+```typescript
+export function CustomConfigExample(){
+  const config = {
+    xsmall: { end: 300 },
+    small: { start: 300, end: 500 },
+    large: { start: 500 },
+  };
+  
+  const breakpoint = useBreakpoint(config);
+
+  return (
+    <div>
+      <div>{`Current breakpoint is: ${breakpoint}`}</div>
+    </div>
+  );
+}
+```
 <hr />
 
 ### useComposedRefs
@@ -140,7 +159,7 @@ const ForwardedRefComponent = forwardRef<HTMLElement, PropsWithChildren<{}>>(
 
 ### useControlledReducer
 
-- a low level hook that utilizes inversion of control and allows you to define a default reducer, and also allows for consumer to override state changes, and state values throug props. Useful if you want a state that could be controlled or uncontrolled depending on the consumer props being passed in.
+- a low level hook that utilizes inversion of control and allows you to define a default reducer, and also allows for consumer to override state changes, and state values through props. Useful if you want a state that could be controlled or uncontrolled depending on the consumer props being passed in.
 
 [See an example implementation](https://github.com/andrewangelle/react-hooks-helpers/tree/main/src/useControlledReducer/story/useSelect.ts) of a headless select hook that utilizes this hook.
 
