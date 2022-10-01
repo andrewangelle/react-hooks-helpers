@@ -40,11 +40,18 @@ export function useEnhancedReducer<
 
   const enhancedReducer = useCallback(
     (state: State, action: ActionType) => {
+      // make sure references aren't stale
       actionRef.current = action;
-      state = getState(state, action.props);
+      state = getState<State, ActionType['props']>(state, action.props);
+
+      // call the default reducer with proposed set of changes
       const changes = reducer(state, action);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const newState = action.props.stateReducer!(state, {
+
+      // call the consumer's optionally passed in reducer last with the proposed set of changes
+      // this gives the consumer the ability to override and control state changes when/how they want
+      // or do nothing and get the default state changes
+      const consumersReducer = action.props.stateReducer ?? reducer;
+      const newState = consumersReducer(state, {
         ...action,
         changes,
       });
@@ -58,19 +65,20 @@ export function useEnhancedReducer<
   const propsRef = useLatestRef<Props>(props);
 
   const dispatchWithProps = useCallback(
-    ({ props, ...action }: ActionType) =>
-      // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-      // @ts-ignore
-      dispatch({ props: propsRef.current, ...action }),
+    (action: ActionType) => dispatch({ ...action, props: propsRef.current }),
     [propsRef]
   );
+
   const action = actionRef.current;
 
   useEffect(() => {
     if (action && prevStateRef.current && prevStateRef.current !== state) {
       callOnChangeProps<State, ActionType>(
         action,
-        getState(prevStateRef.current, action.props),
+        getState<State, ActionType['props']>(
+          prevStateRef.current,
+          action.props
+        ),
         state
       );
     }
@@ -115,12 +123,10 @@ function callOnChangeProps<
   const { props, type } = action;
   const changes = {} as unknown as State;
 
-  Object.keys(state).forEach(key => {
+  Object.keys(state).forEach((key: keyof State) => {
     invokeOnChangeHandler<State, ActionType>(key, action, state, newState);
 
     if (newState[key] !== state[key]) {
-      // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-      // @ts-ignore
       changes[key] = newState[key];
     }
 
@@ -131,18 +137,20 @@ function callOnChangeProps<
 }
 
 function invokeOnChangeHandler<
-  State extends Record<string, unknown>,
+  State extends Record<keyof State, unknown>,
   ActionType extends DefaultAction
->(key: string, action: ActionType, state: State, newState: State): void {
+>(key: keyof State, action: ActionType, state: State, newState: State): void {
   const { props, type } = action;
-  const handler = `on${capitalize(key)}Change`;
+  const handler = `on${capitalize(key as string)}Change`;
+  const onChangeHandler = props[handler] as (
+    action: { type: string } & State
+  ) => void;
 
   if (
     props[handler] &&
     newState[key] !== undefined &&
     newState[key] !== state[key]
   ) {
-    // @ts-expect-error
-    props[handler]({ type, ...newState });
+    onChangeHandler({ type, ...newState });
   }
 }
