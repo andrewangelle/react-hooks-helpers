@@ -49,6 +49,10 @@ export function Basic() {
 export function WithPropOverrides() {
   const { isOpen, selectedOption, toggle, setSelectedOption } = useSelect({
     options: selectOptions,
+    onIsOpenChange: (arg: any) => console.log('onIsOpenChange', arg),
+    onSelectedOptionChange: (arg: any) =>
+      console.log('onSelectedOptionChange', arg),
+    onStateChange: state => console.log('onStateChange', state),
     stateReducer(state, action) {
       let changes: Partial<SelectState> = { ...(action.changes || {}) };
 
