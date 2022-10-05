@@ -16,9 +16,7 @@ export const domRectProps: Array<keyof DOMRect> = [
 ];
 
 function rectChanged(
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   a: DOMRect = {} as DOMRect,
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   b: DOMRect = {} as DOMRect
 ): boolean {
   return domRectProps.some(prop => a[prop] !== b[prop]);
@@ -82,12 +80,10 @@ export function observeRect(
           state.callbacks.splice(index, 1);
         }
 
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!state.callbacks.length) {
           observedNodes.delete(node);
         }
 
-        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         if (!observedNodes.size) {
           cancelAnimationFrame(rafId);
         }

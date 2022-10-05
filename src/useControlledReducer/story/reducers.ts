@@ -1,4 +1,4 @@
-import { DefaultAction, DefaultProps, ReducerType } from '../utils';
+import { ControlledReducerProps, ReducerType } from '../utils';
 
 export type Option = { value: string; label: string };
 
@@ -7,7 +7,7 @@ export type SelectState = {
   selectedOption?: Option;
 };
 
-export type SelectProps = DefaultProps<SelectState> & {
+export type SelectProps = ControlledReducerProps<SelectState> & {
   initialOpen?: boolean;
   selectedOption?: Option;
   options: Option[];
@@ -18,11 +18,7 @@ export const selectActionTypes = {
   setSelectedOption: 'SELECT_SET_SELECTED_OPTION',
 };
 
-export const selectReducer: ReducerType<
-  SelectState,
-  SelectProps,
-  DefaultAction<SelectState, SelectProps>
-> = (state, action) => {
+export const selectReducer: ReducerType<SelectState> = (state, action) => {
   switch (action.type) {
     case selectActionTypes.toggle:
       return {

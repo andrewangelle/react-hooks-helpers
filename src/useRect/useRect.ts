@@ -14,7 +14,6 @@ export function useRect<ElementType extends Element = HTMLElement>(
   let observe: boolean;
   let onChange: UseRectOptions['onChange'];
 
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (options?.observe) {
     observe = options.observe;
   } else {
@@ -60,7 +59,6 @@ export function useRect<ElementType extends Element = HTMLElement>(
     }
 
     if (elem === null || elem === undefined) {
-      // eslint-disable-next-line no-useless-return
       return;
     }
 
