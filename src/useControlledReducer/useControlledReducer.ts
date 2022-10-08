@@ -1,5 +1,5 @@
 import {
-  ReducerType,
+  ControlledReducer,
   getState,
   useEnhancedReducer,
   ControlledReducerProps,
@@ -14,7 +14,7 @@ export function useControlledReducer<
   State extends Record<string, unknown>,
   Props extends ControlledReducerProps<State>
 >(
-  reducer: ReducerType<State>,
+  reducer: ControlledReducer<State>,
   initialState: State = {} as State,
   props: Props
 ): [
