@@ -18,7 +18,7 @@ export function useSelect(
     ...props
   }: SelectProps | undefined = {} as SelectProps
 ): UseSelect {
-  const controlledReducerProps = {
+  const controlledReducerProps: SelectProps = {
     stateReducer,
     ...props,
   };
@@ -41,7 +41,7 @@ export function useSelect(
     });
   }
 
-  function setSelectedOption(option: { value: string; label: string }): void {
+  function setSelectedOption(option: Option): void {
     dispatch({
       type: selectActionTypes.setSelectedOption,
       selectedOption: option,

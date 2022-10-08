@@ -4,45 +4,66 @@ function capitalize(str: string = ''): string {
   return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
 }
 
-export type DefaultProps<State = Record<string, unknown>> = {
-  [Key: string]: unknown;
-  onStateChange?: (nextState: State) => void;
-  stateReducer?: ReducerType<State>;
-};
+type OnChangeHandlerKey<State = Record<string, unknown>> = `on${Capitalize<
+  string & keyof State
+>}Change`;
 
-export type DefaultAction<
-  State = Record<string, any>,
-  Props = DefaultProps<State>
+type OnChangeHandlerCallback<State = Record<string, unknown>> = (
+  arg: Partial<State> & { type: string }
+) => void;
+
+type OnChangeHandlerProps<State = Record<string, unknown>> = Record<
+  OnChangeHandlerKey<State>,
+  OnChangeHandlerCallback<State>
+>;
+
+export type ControlledReducerProps<State = Record<string, unknown>> = Partial<
+  OnChangeHandlerProps<State>
+> & {
+  onStateChange?: (nextState: State) => void;
+  stateReducer?: ControlledReducer<State>;
+} & Partial<State>;
+
+export type ControlledReducerAction<
+  State = Record<string, unknown>,
+  Props = ControlledReducerProps<State>
 > = {
-  [key: string]: any;
   type: string;
   props: Props;
   changes?: Partial<State>;
-};
+} & Partial<State>;
 
-export type ReducerType<
-  State = Record<string, any>,
-  Props = DefaultProps,
-  ActionType = DefaultAction<State, Props>
-> = (state: State, action: ActionType) => State;
+export type ControlledReducer<State = Record<string, unknown>> = (
+  state: State,
+  action: ControlledReducerAction<State, ControlledReducerProps<State>>
+) => State;
 
 export function useEnhancedReducer<
-  State extends Record<string, any>,
-  Props extends DefaultProps<State>,
-  ActionType extends DefaultAction<State, DefaultProps<State>>
+  State extends Record<string, unknown>,
+  Props extends ControlledReducerProps<State>
 >(
-  reducer: ReducerType<State, Props, ActionType>,
+  reducer: ControlledReducer<State>,
   initialState: State = {} as State,
   props: Props
-): [State, (action: ActionType) => void] {
+): [
+  State,
+  (
+    action: ControlledReducerAction<State, ControlledReducerProps<State>>
+  ) => void
+] {
   const prevStateRef = useRef<State | undefined>();
-  const actionRef = useRef<ActionType | undefined>();
+  const actionRef = useRef<
+    ControlledReducerAction<State, ControlledReducerProps<State>> | undefined
+  >();
 
   const enhancedReducer = useCallback(
-    (state: State, action: ActionType) => {
+    (
+      state: State,
+      action: ControlledReducerAction<State, ControlledReducerProps<State>>
+    ) => {
       // make sure references aren't stale
       actionRef.current = action;
-      state = getState<State, ActionType['props']>(state, action.props);
+      state = getState(state, action.props);
 
       // call the default reducer with proposed set of changes
       const changes = reducer(state, action);
@@ -65,7 +86,8 @@ export function useEnhancedReducer<
   const propsRef = useLatestRef<Props>(props);
 
   const dispatchWithProps = useCallback(
-    (action: ActionType) => dispatch({ ...action, props: propsRef.current }),
+    (action: ControlledReducerAction<State, ControlledReducerProps<State>>) =>
+      dispatch({ ...action, props: propsRef.current ?? {} }),
     [propsRef]
   );
 
@@ -73,12 +95,9 @@ export function useEnhancedReducer<
 
   useEffect(() => {
     if (action && prevStateRef.current && prevStateRef.current !== state) {
-      callOnChangeProps<State, ActionType>(
+      callOnChangeProps<State>(
         action,
-        getState<State, ActionType['props']>(
-          prevStateRef.current,
-          action.props
-        ),
+        getState(prevStateRef.current, action.props),
         state
       );
     }
@@ -98,12 +117,14 @@ function isControlledProp<Props extends Record<string, unknown>>(
 
 export function getState<
   State extends Record<string, unknown>,
-  Props extends DefaultProps<State>
+  Props extends ControlledReducerProps<State>
 >(state: State, props: Props): State {
   return Object.keys(state).reduce((prevState, key) => {
     return {
       ...prevState,
-      [key]: isControlledProp<Props>(props, key) ? props[key] : state[key],
+      [key]: isControlledProp<Props>(props, key)
+        ? props[key as keyof Props]
+        : state[key],
     };
   }, {}) as State;
 }
@@ -116,15 +137,19 @@ function useLatestRef<DataType extends unknown>(
   return ref;
 }
 
-function callOnChangeProps<
-  State extends Record<string, unknown>,
-  ActionType extends DefaultAction
->(action: ActionType, state: State, newState: State): void {
+function callOnChangeProps<State extends Record<string, unknown>>(
+  action: ControlledReducerAction<State, ControlledReducerProps<State>>,
+  state: State,
+  newState: State
+): void {
   const { props, type } = action;
   const changes = {} as unknown as State;
 
   Object.keys(state).forEach((key: keyof State) => {
-    invokeOnChangeHandler<State, ActionType>(key, action, state, newState);
+    invokeOnChangeHandler<
+      State,
+      ControlledReducerAction<State, ControlledReducerProps<State>>
+    >(key, action, state, newState);
 
     if (newState[key] !== state[key]) {
       changes[key] = newState[key];
@@ -138,16 +163,18 @@ function callOnChangeProps<
 
 function invokeOnChangeHandler<
   State extends Record<keyof State, unknown>,
-  ActionType extends DefaultAction
+  ActionType extends ControlledReducerAction<State>
 >(key: keyof State, action: ActionType, state: State, newState: State): void {
   const { props, type } = action;
-  const handler = `on${capitalize(key as string)}Change`;
-  const onChangeHandler = props[handler] as (
-    action: { type: string } & State
-  ) => void;
+
+  const capitalizedKeyName = capitalize(key as string);
+
+  const handler = `on${capitalizedKeyName}Change` as OnChangeHandlerKey<State>;
+
+  const onChangeHandler = props[handler] as OnChangeHandlerCallback<State>;
 
   if (
-    props[handler] &&
+    onChangeHandler &&
     newState[key] !== undefined &&
     newState[key] !== state[key]
   ) {

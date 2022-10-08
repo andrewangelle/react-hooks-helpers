@@ -1,6 +1,7 @@
 # react hooks helpers
 A collection of utility hooks to problems I've solved over the years.
 
+[![npm version](https://badge.fury.io/js/react-hooks-helpers.svg)](https://badge.fury.io/js/react-hooks-helpers)
 # Getting Started
 
 Install dependencies
