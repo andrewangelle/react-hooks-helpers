@@ -11,19 +11,21 @@ function Test(): JSX.Element {
   const [isVisible, setVisible] = useState(false);
 
   const callback = (): void => {
-    setVisible(true)
+    setVisible(true);
   };
 
   const { reset } = useCountdownTimer({
-    callback, 
-    interval: 5000, 
-    skip
+    callback,
+    interval: 5000,
+    skip,
   });
 
   return (
     <div>
       <div>{`Timer ${skip ? 'stopped' : 'running'}`}</div>
-      <button onClick={() => setSkip(prev => !prev)}>{`${skip ? 'Start' : 'Stop'} Timer`}</button>
+      <button onClick={() => setSkip(prev => !prev)}>{`${
+        skip ? 'Start' : 'Stop'
+      } Timer`}</button>
       <button onClick={reset}>Reset timer</button>
 
       {isVisible && (
@@ -39,16 +41,16 @@ function Test(): JSX.Element {
 describe('useCountdownTimer', async () => {
   it('fires callback at end of timer', () => {
     vi.useFakeTimers({
-      toFake: ['setInterval', 'clearInterval']
+      toFake: ['setInterval', 'clearInterval'],
     });
 
     function tick(): void {
       vi.advanceTimersByTime(6000);
-    };
+    }
 
     function tickHalfway(): void {
       vi.advanceTimersByTime(3000);
-    };
+    }
 
     render(<Test />);
 
