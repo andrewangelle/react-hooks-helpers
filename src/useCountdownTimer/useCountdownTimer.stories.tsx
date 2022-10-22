@@ -8,13 +8,13 @@ function Story(): JSX.Element {
 
   const callback = (): void => {
     setVisible(true);
-    setSkip(true)
+    setSkip(true);
   };
 
   const { reset } = useCountdownTimer({
-    callback, 
-    interval: 5000, 
-    skip
+    callback,
+    interval: 5000,
+    skip,
   });
 
   return (
@@ -27,16 +27,22 @@ function Story(): JSX.Element {
       }}
     >
       <div>{`Timer ${skip ? 'stopped' : 'running'}`}</div>
-      <button onClick={() => setSkip(prev => !prev)}>{`${skip ? 'Start' : 'Stop'} Timer`}</button>
+      <button onClick={() => setSkip(prev => !prev)}>{`${
+        skip ? 'Start' : 'Stop'
+      } Timer`}</button>
       <button onClick={reset}>Reset timer</button>
 
       {isVisible && (
         <div>
           Timer expired
-          <button onClick={() => {
-            setVisible(false)
-            setSkip(false)
-          }}>OK</button>
+          <button
+            onClick={() => {
+              setVisible(false);
+              setSkip(false);
+            }}
+          >
+            OK
+          </button>
         </div>
       )}
     </div>

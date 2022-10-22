@@ -1,59 +1,57 @@
 import { useState, useRef, useEffect } from 'react';
 
 export type CountdownTimerOptions = {
-  callback: () => void,
-  interval?: number,
-  skip?: boolean   
-}
+  callback: () => void;
+  interval?: number;
+  skip?: boolean;
+};
 
 type UseCountdownTimer = {
   reset: () => void;
-}
+};
 
 export function useCountdownTimer({
   callback,
   interval = 2000,
-  skip = false
+  skip = false,
 }: CountdownTimerOptions): UseCountdownTimer {
   const [count, setCount] = useState(interval / 1000);
 
   const callbackRef = useRef(callback);
 
-  function reset(): void{
-    setCount(interval / 1000) 
+  function reset(): void {
+    setCount(interval / 1000);
   }
 
   useEffect(() => {
     callbackRef.current = callback;
-  })
+  });
 
   useEffect(() => {
     let id: NodeJS.Timeout;
 
-    if(!skip){
+    if (!skip) {
       id = setInterval(() => {
-        setCount(prev => prev - 1)
-      }, 1000)
+        setCount(prev => prev - 1);
+      }, 1000);
 
-
-      if(count <= 0){
+      if (count <= 0) {
         callbackRef.current();
-        setCount(interval / 1000)
+        setCount(interval / 1000);
       }
     }
 
-    if(skip){
+    if (skip) {
       // @ts-expect-error
-      clearInterval(id)
+      clearInterval(id);
     }
 
     return () => {
-      clearInterval(id)
-    }
-
-  }, [skip, count, interval, setCount, callbackRef])
+      clearInterval(id);
+    };
+  }, [skip, count, interval, setCount, callbackRef]);
 
   return {
-    reset
-  }
+    reset,
+  };
 }
