@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 
 export type CountdownTimerOptions = {
-  callback: () => void;
   interval?: number;
   skip?: boolean;
+  resetOnExpire?: boolean;
+  onExpire: () => void;
 };
 
 type UseCountdownTimer = {
@@ -11,20 +12,22 @@ type UseCountdownTimer = {
 };
 
 export function useCountdownTimer({
-  callback,
   interval = 2000,
   skip = false,
+  resetOnExpire = true,
+  onExpire,
 }: CountdownTimerOptions): UseCountdownTimer {
-  const [count, setCount] = useState(interval / 1000);
+  const initialCount = interval / 1000;
 
-  const callbackRef = useRef(callback);
+  const [count, setCount] = useState(initialCount);
+  const onExpireRef = useRef(onExpire);
 
   function reset(): void {
-    setCount(interval / 1000);
+    setCount(initialCount);
   }
 
   useEffect(() => {
-    callbackRef.current = callback;
+    onExpireRef.current = onExpire;
   });
 
   useEffect(() => {
@@ -36,8 +39,8 @@ export function useCountdownTimer({
       }, 1000);
 
       if (count <= 0) {
-        callbackRef.current();
-        setCount(interval / 1000);
+        onExpireRef.current();
+        resetOnExpire && setCount(initialCount);
       }
     }
 
@@ -49,7 +52,7 @@ export function useCountdownTimer({
     return () => {
       clearInterval(id);
     };
-  }, [skip, count, interval, setCount, callbackRef]);
+  }, [skip, count, interval, setCount, onExpireRef]);
 
   return {
     reset,

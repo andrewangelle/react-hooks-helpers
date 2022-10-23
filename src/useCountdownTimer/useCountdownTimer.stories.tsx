@@ -6,15 +6,15 @@ function Story(): JSX.Element {
   const [skip, setSkip] = useState(false);
   const [isVisible, setVisible] = useState(false);
 
-  const callback = (): void => {
+  const onExpire = (): void => {
     setVisible(true);
     setSkip(true);
   };
 
   const { reset } = useCountdownTimer({
-    callback,
     interval: 5000,
     skip,
+    onExpire,
   });
 
   return (
