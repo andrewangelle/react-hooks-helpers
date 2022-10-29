@@ -20,6 +20,7 @@ export function useCountdownTimer({
   const initialCount = interval / 1000;
 
   const [count, setCount] = useState(initialCount);
+  const [hasExpired, setHasExpired] = useState<boolean>(false);
   const onExpireRef = useRef(onExpire);
 
   function reset(): void {
@@ -32,15 +33,19 @@ export function useCountdownTimer({
 
   useEffect(() => {
     let id: NodeJS.Timeout;
+    const shouldRunTimer = !skip && !hasExpired;
 
-    if (!skip) {
+    if (shouldRunTimer) {
       id = setInterval(() => {
         setCount(prev => prev - 1);
       }, 1000);
 
       if (count <= 0) {
         onExpireRef.current();
-        resetOnExpire && setCount(initialCount);
+        
+        resetOnExpire 
+          ? setCount(initialCount) 
+          : setHasExpired(true)
       }
     }
 
@@ -52,7 +57,7 @@ export function useCountdownTimer({
     return () => {
       clearInterval(id);
     };
-  }, [skip, count, interval, setCount, onExpireRef]);
+  }, [skip, count, interval, setCount, hasExpired, setHasExpired, onExpireRef]);
 
   return {
     reset,
