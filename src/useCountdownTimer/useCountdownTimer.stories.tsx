@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import {Story } from '@storybook/react';
+import { Story } from '@storybook/react';
 
 import { CountdownTimerOptions, useCountdownTimer } from './useCountdownTimer';
 
-const CountdownStory : Story<CountdownTimerOptions> = args => {
+const CountdownStory: Story<CountdownTimerOptions> = args => {
   const [skip, setSkip] = useState(args.skip);
   const [isVisible, setVisible] = useState(false);
   const options: CountdownTimerOptions = {
@@ -11,8 +11,8 @@ const CountdownStory : Story<CountdownTimerOptions> = args => {
     onExpire: () => {
       setVisible(true);
       setSkip(true);
-    }
-  }
+    },
+  };
   const { reset } = useCountdownTimer(options);
 
   return (
@@ -45,7 +45,7 @@ const CountdownStory : Story<CountdownTimerOptions> = args => {
       )}
     </div>
   );
-}
+};
 
 const Meta = {
   title: 'useCountdownTimer',
@@ -54,7 +54,7 @@ const Meta = {
     interval: 5000,
     skip: false,
     resetOnExpire: false,
-  }
+  },
 };
 
 export const Basic = {

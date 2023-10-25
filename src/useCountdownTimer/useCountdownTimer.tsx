@@ -42,10 +42,8 @@ export function useCountdownTimer({
 
       if (count <= 0) {
         onExpireRef.current();
-        
-        resetOnExpire 
-          ? setCount(initialCount) 
-          : setHasExpired(true)
+
+        resetOnExpire ? setCount(initialCount) : setHasExpired(true);
       }
     }
 
