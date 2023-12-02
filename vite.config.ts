@@ -18,7 +18,8 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'react-hooks-helpers',
-      fileName: format => `index.${format}.js`
+      fileName: format => `index.${format}.js`,
+      formats: ['cjs', 'es', 'umd']
     },
     rollupOptions: {
       external: ['react'],
